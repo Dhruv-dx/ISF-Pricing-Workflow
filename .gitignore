@@ -1,0 +1,8 @@
+# Ignore CSV files
+*.csv
+
+# Ignore ISF_locations folder
+ISF_locations_31-01-26/
+
+# Ignore Python cache
+__pycache__/
