@@ -196,9 +196,9 @@ def replace_pricing_section_in_md(md_filepath: Path, new_pricing_content: str, c
             content = f.read()
         
         # Pattern to find the pricing content block:
-        # Starts with "Member Type:" and ends with the Availability line
-        # This matches the exact pattern from lines 4-22 in the text files
-        pattern = r'Member Type:.*?(?:SILVER SNEAKERS|Insurance Availability):.*?(?:available|not available).*?(?:\n(?:Peer Fit|PeerFit):.*?(?:available|not available).*?)?(?=\n\n|\n\[Get Started\]|\Z)'
+        # Starts with "Member Type:" and ends with the last known closing line
+        # Handles: Elevate Offering (standard), Insurance Availability, or SILVER SNEAKERS
+        pattern = r'Member Type:.*?(?:Elevate Offering|Insurance Availability|SILVER SNEAKERS):.*?(?=\n\n|\n\[Get Started\]|\Z)'
         
         match = re.search(pattern, content, re.DOTALL)
         if match:

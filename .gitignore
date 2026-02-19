@@ -2,7 +2,16 @@
 *.csv
 
 # Ignore ISF_locations folder
-ISF_locations_31-01-26/
+ISF_locations_*/
+
+# Ignore club_files folder
+club_files_*/
+
+# Ignore inshape_pricing_formatted_ folder
+inshape_pricing_formatted_*
+
+# Ignore pricing files folder
+pricing files/
 
 # Ignore Python cache
 __pycache__/

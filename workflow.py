@@ -29,13 +29,13 @@ def parse_args():
     parser.add_argument(
         "--csv",
         type=Path,
-        default=PROJECT_DIR / "ISS Pricing 01292026.csv",
-        help="Path to InShape pricing CSV (default: ISS Pricing 01292026.csv in project dir)",
+        default=PROJECT_DIR / "pricing files" / "ISS Pricing 02172026 (1).csv",
+        help="Path to InShape pricing CSV (default: pricing files/ISS Pricing 01292026.csv in project dir)",
     )
     parser.add_argument(
         "--isf-dir",
         type=Path,
-        default=PROJECT_DIR / "ISF_locations_31-01-26",
+        default=PROJECT_DIR / "ISF_locations_18-02-26",
         help="Source directory of ISF markdown location files (default: ISF_locations_22-01-26)",
     )
     parser.add_argument(
