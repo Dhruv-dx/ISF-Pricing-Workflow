@@ -24,9 +24,9 @@ class InShapePricingFormatter:
     def __init__(self):
         # Column mappings based on CSV header
         self.pricing_columns = {
-            "One Club": 12,
-            "Local Network": 13, 
-            "Lifestyle Network Plus": 14
+            "One Club": 16,
+            "Local Network": 17,
+            "Lifestyle Network Plus": 18
         }
         
         # Special programs columns (0-based indexing)
@@ -232,14 +232,14 @@ class InShapePricingFormatter:
                 
                 # Special handling for Member Type row (shows membership codes, not prices)
                 if fee_type == "Member Type":
-                    one_club = row[12].strip() if len(row) > 12 and row[12].strip() else "Not available"
-                    local_network = row[13].strip() if len(row) > 13 and row[13].strip() else "Not available"  
-                    lifestyle_plus = row[14].strip() if len(row) > 14 and row[14].strip() else "Not available"
+                    one_club = row[16].strip() if len(row) > 16 and row[16].strip() else "Not available"
+                    local_network = row[17].strip() if len(row) > 17 and row[17].strip() else "Not available"
+                    lifestyle_plus = row[18].strip() if len(row) > 18 and row[18].strip() else "Not available"
                 else:
                     # Get pricing for each membership type
-                    one_club = self.clean_price(row[12]) if len(row) > 12 else "Not available"
-                    local_network = self.clean_price(row[13]) if len(row) > 13 else "Not available"  
-                    lifestyle_plus = self.clean_price(row[14]) if len(row) > 14 else "Not available"
+                    one_club = self.clean_price(row[16]) if len(row) > 16 else "Not available"
+                    local_network = self.clean_price(row[17]) if len(row) > 17 else "Not available"
+                    lifestyle_plus = self.clean_price(row[18]) if len(row) > 18 else "Not available"
                 
                 fee_data[fee_type] = {
                     "One Club": one_club,
@@ -314,7 +314,7 @@ def main():
     formatter = InShapePricingFormatter()
     
     # Process the CSV file
-    csv_file = "ISS Pricing 01292026.csv"
+    csv_file = "pricing files/ISS Pricing 05122026.csv"
     formatted_output = formatter.process_csv_file(csv_file)
     
     if formatted_output.startswith("Error"):

@@ -116,11 +116,11 @@ def read_pricing_content_from_csv(csv_filepath: Path, club_name: str) -> Optiona
                 "Preferred", "Elevate", "Non-EFT Fee", "Credit Card Service Fee"
             ]
             
-            # Column indices (0-based)
-            add_on_fees_col = 6  # "Add On Fees" column
-            local_network_col = 15  # "Basic Local Network"
-            fitness_plus_col = 16  # "Fitness Plus Local Network"
-            lifestyle_col = 17  # "Lifestyle Local Network"
+            # Column indices (0-based) — derive from dynamically found lifestyle column
+            add_on_fees_col = 6
+            lifestyle_col = lifestyle_col_idx
+            fitness_plus_col = lifestyle_col_idx - 1
+            local_network_col = lifestyle_col_idx - 2
             
             for fee_type in fee_types:
                 # Find row for this fee type
