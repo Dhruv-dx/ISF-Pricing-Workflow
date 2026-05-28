@@ -41,21 +41,26 @@ class InShapePricingFormatter:
             "Peer Fit": 32
         }
         
-        # Fee type mappings for pricing details
+        # Fee type mappings for pricing details (keys match CSV column 6 values)
         self.fee_types = [
             "Member Type",
             "Enrollment 12 M",
-            "Main Dues 12M", 
+            "Main Dues 12M",
             "Enrollment MTM",
             "Main Dues MTM",
             "Add Adult",
-            "Add Youth", 
+            "Add Youth",
             "Add Child",
             "Preferred",
             "Elevate",
             "Non-EFT Fee",
             "Credit Card Service Fee"
         ]
+
+        # Display name overrides: CSV value → output label
+        self.fee_display_names = {
+            "Elevate": "Preferred Plus",
+        }
         
     def clean_price(self, value: str) -> str:
         """Clean and format price values."""
@@ -254,8 +259,9 @@ class InShapePricingFormatter:
             for fee_type in self.fee_types:
                 if fee_type in fee_data:
                     data = fee_data[fee_type]
+                    label = self.fee_display_names.get(fee_type, fee_type)
                     output_lines.append(
-                        f"{fee_type}: One Club: {data['One Club']} | "
+                        f"{label}: One Club: {data['One Club']} | "
                         f"Local Network: {data['Local Network']} | "
                         f"Lifestyle Network Plus: {data['Lifestyle Network Plus']}"
                     )
@@ -271,11 +277,11 @@ class InShapePricingFormatter:
             else:
                 output_lines.append("Network Name: Not available (Other Clubs: )")
             
-            # Add elevate offering
+            # Add preferred plus offering
             if elevate_offering and elevate_offering.strip() not in ["", "NA", "Not available"]:
-                output_lines.append(f"Elevate Offering: {elevate_offering.strip()}")
+                output_lines.append(f"Preferred Plus Offering: {elevate_offering.strip()}")
             else:
-                output_lines.append("Elevate Offering: Not available")
+                output_lines.append("Preferred Plus Offering: Not available")
             
             output_lines.append("")
             
@@ -314,7 +320,7 @@ def main():
     formatter = InShapePricingFormatter()
     
     # Process the CSV file
-    csv_file = "pricing files/ISS Pricing 05122026.csv"
+    csv_file = "pricing files/ISS Pricing 05282026.csv"
     formatted_output = formatter.process_csv_file(csv_file)
     
     if formatted_output.startswith("Error"):

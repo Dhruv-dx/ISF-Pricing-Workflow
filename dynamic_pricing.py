@@ -115,6 +115,8 @@ def read_pricing_content_from_csv(csv_filepath: Path, club_name: str) -> Optiona
                 "Main Dues MTM", "Add Adult", "Add Youth", "Add Child",
                 "Preferred", "Elevate", "Non-EFT Fee", "Credit Card Service Fee"
             ]
+            # CSV still uses "Elevate"; map to display label for output
+            fee_display_names = {"Elevate": "Preferred Plus"}
             
             # Column indices (0-based) — derive from dynamically found lifestyle column
             add_on_fees_col = 6
@@ -135,9 +137,10 @@ def read_pricing_content_from_csv(csv_filepath: Path, club_name: str) -> Optiona
                     local_val = fee_row[local_network_col].strip() if len(fee_row) > local_network_col else ""
                     fitness_val = fee_row[fitness_plus_col].strip() if len(fee_row) > fitness_plus_col else ""
                     lifestyle_val = fee_row[lifestyle_col].strip() if len(fee_row) > lifestyle_col else ""
-                    
+
                     # Format the line
-                    pricing_line = f"{fee_type}: Local Network: {local_val or 'Not available'} | Fitness Plus Local Network: {fitness_val or 'Not available'} | Lifestyle Network Plus: {lifestyle_val or 'Not available'}"
+                    label = fee_display_names.get(fee_type, fee_type)
+                    pricing_line = f"{label}: Local Network: {local_val or 'Not available'} | Fitness Plus Local Network: {fitness_val or 'Not available'} | Lifestyle Network Plus: {lifestyle_val or 'Not available'}"
                     
                     # Add additional columns if they exist and have values
                     if additional_columns:
@@ -198,7 +201,7 @@ def replace_pricing_section_in_md(md_filepath: Path, new_pricing_content: str, c
         # Pattern to find the pricing content block:
         # Starts with "Member Type:" and ends with the last known closing line
         # Handles: Elevate Offering (standard), Insurance Availability, or SILVER SNEAKERS
-        pattern = r'Member Type:.*?(?:Elevate Offering|Insurance Availability|SILVER SNEAKERS):.*?(?=\n\n|\n\[Get Started\]|\Z)'
+        pattern = r'Member Type:.*?(?:Elevate Offering|Insurance Availability|SILVER SNEAKERS|Preferred Plus Offering):.*?(?=\n\n|\n\[Get Started\]|\Z)'
         
         match = re.search(pattern, content, re.DOTALL)
         if match:
